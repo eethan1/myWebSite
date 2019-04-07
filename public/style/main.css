@@ -1,0 +1,43 @@
+@font-face {
+    font-family: '8bitlim';
+    src:url('/fonts/8-bit-limit/8bitlim.ttf') format('truetype');
+}
+
+body {
+    font-family:'8bitlim';
+    background-image: url("/img/bg.png");
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-attachment: fixed;
+    background-size:cover;
+    background-color: rgb(10,20,60);
+}
+
+.center{
+    margin-left:auto;
+    margin-right:auto;
+}
+.sect {
+    text-align: center;
+    height: 400px;
+    display:block;
+    border-style:dotted;
+    margin: 1em;
+    zoom: 1;
+}
+
+.d-title{
+    height: 200px;
+}
+#title{
+    font-size:60px;
+    line-height: 100px;
+    height:80px;
+}
+#visit {
+    font-size: 20px;
+}
+footer {
+    color: steelblue;
+    display: block;
+}
