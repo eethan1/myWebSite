@@ -13,7 +13,7 @@ var appendMsg = function(obj){
     pNode.value = true;
     console.log(pNode);
     pNode.onclick = deleteMsg(pNode.id);
-    node.appendChild(pNode);
+    node.prepend(pNode);
     console.log("append:",msg);
 }
 var deleteMsg = function(id){
