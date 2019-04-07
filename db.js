@@ -1,3 +1,4 @@
+const ARG = require('./ARG');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -9,7 +10,7 @@ var Msg = new Schema({
 
 var MsgModel = mongoose.model('Msg', Msg);
 
-mongoose.connect('mongodb://localhost/express-msg');
+mongoose.connect(`mongodb://${ARG.dbIP}/express-msg`);
 
 module.exports = {
     mongoose:mongoose,

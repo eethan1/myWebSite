@@ -10,8 +10,7 @@
 
     <div class='sect chatbox'>
         <div>
-            <input id='msgInput' name="msg" value="" onkeypress="sendMsg(event);" >
-            <label>Leave something?</label>
+            <input id='msgInput' name="msg" value="" onkeypress="sendMsg(event);" placeholder="Leave something?">
         </div>
         <div id="msgBox" class="center">
             
@@ -20,5 +19,6 @@
 
 </div>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
+<script> socket = io.connect('ws://{{socket}}');</script>
 <script src="/js/chatbox.js"></script>
 

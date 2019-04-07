@@ -41,3 +41,15 @@ footer {
     color: steelblue;
     display: block;
 }
+input {
+    font-family:'8bitlim';
+    font-size: 17px;
+    background-color:transparent;
+    border:none;
+    border-style: hidden;
+    text-align:center;
+}
+input::placeholder{
+    text-align: center;
+    color: #000000;
+}

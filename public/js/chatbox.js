@@ -1,4 +1,3 @@
-socket = io.connect('ws://localhost:3001');
 socket.on('message', (obj)=>{
     console.log("receive:",obj);
     appendMsg(obj);
