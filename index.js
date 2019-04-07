@@ -121,8 +121,6 @@ app.get('/', function(req, res){
         req.session.visit = 1;
         app.VisitCnt += 1;
     }
-    console.log(req.session.visit);
-    console.log(req.sessionID);
     res.render('home',{
         visit: req.session.visit,
         VisitCnt:app.VisitCnt,
@@ -131,7 +129,7 @@ app.get('/', function(req, res){
 });
 
 app.use(function(req, res) {
-	console.log(req.url);
+	console.log(`404!!${req.url}`);
 	res.status(404);
     res.send('404');
 });
@@ -148,7 +146,7 @@ app.use(function(err, req, res, next){
 
 app.set('port', process.env.PORT || ARG.port);
 function startServer() {
-	app.listen(ARG.port, () => {
+	app.listen(ARG.port, ARG.host,() => {
         console.log( `Expreeso started on http://${ARG.host}:${ARG.port}`);
     });
 	// http.createServer(app).listen(app.get('port'), function(){
