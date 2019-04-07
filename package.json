@@ -1,21 +1,8 @@
 {
-  "name": "memer",
+  "name": "mywebsite",
   "version": "1.0.0",
-  "description": "memer",
+  "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/eethan1/myWebSite.git"
-  },
-  "author": "memer",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/eethan1/myWebSite/issues"
-  },
-  "homepage": "https://github.com/eethan1/myWebSite#readme",
   "dependencies": {
     "cluster": "^0.7.7",
     "cookie-parser": "^1.4.4",
@@ -25,5 +12,19 @@
     "mongoose": "^5.4.22",
     "randomstring": "^1.1.5",
     "socket.io": "^2.2.0"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eethan1/myWebSite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eethan1/myWebSite/issues"
+  },
+  "homepage": "https://github.com/eethan1/myWebSite#readme"
 }
