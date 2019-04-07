@@ -92,6 +92,7 @@ app.delete('/msg', function(req, res){
             return console.log(err);
         }
         res.json({code:200});
+        io.emit('delMsg', {id:req.body._id});
         return false;
     })
 });

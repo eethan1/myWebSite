@@ -2,6 +2,10 @@ socket.on('message', (obj)=>{
     console.log("receive:",obj);
     appendMsg(obj);
 });
+socket.on('delMsg', (obj) =>{
+    console.log("Delete:", obj);
+    rmMsgEle(obj.id);
+});
 var msgCnt = 0
 var appendMsg = function(obj){
     var msg = obj.msg;
@@ -16,9 +20,13 @@ var appendMsg = function(obj){
     node.prepend(pNode);
     console.log("append:",msg);
 }
+
+var rmMsgEle = function(id) {
+    var ele = document.getElementById(id);
+    ele.remove();
+}
 var deleteMsg = function(id){
     return function(){
-        var ele = document.getElementById(id);
         console.log(id);
         $.ajax({
             url: '/msg',
@@ -29,7 +37,7 @@ var deleteMsg = function(id){
             success: (res) => {
                 console.log(res);
                 if(res.code===200)
-                    ele.remove();
+                    console.log("valid delete");
                 else
                     alert('You cannot do that!');
             }
