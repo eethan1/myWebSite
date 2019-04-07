@@ -1,4 +1,4 @@
-ARG-default.js
+ARG.js
 # Logs
 logs
 *.log
