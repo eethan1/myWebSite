@@ -19,7 +19,7 @@ body {
 }
 .sect {
     text-align: center;
-    height: 400px;
+    height: 350px;
     display:block;
     border-style:dotted;
     margin: 1em;
@@ -29,6 +29,7 @@ body {
 .d-title{
     height: 200px;
 }
+
 #title{
     font-size:60px;
     line-height: 100px;
@@ -52,4 +53,12 @@ input {
 input::placeholder{
     text-align: center;
     color: #000000;
+}
+#selfie {
+    vertical-align: center;
+    height: 300px;
+    width: auto;
+}
+.d-selfie{
+    vertical-align: center;
 }

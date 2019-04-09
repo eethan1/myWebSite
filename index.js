@@ -1,6 +1,8 @@
 var express = require('express');
 var handlebars = require('express3-handlebars').create({ defaultLayout:'main'});
 var cookieParser = require('cookie-parser');
+var helmet = require('helmet');
+var xss = require('xss');
 var app = express();
 var http = require('http');
 const SEC = require('./SEC');
@@ -38,7 +40,7 @@ app.disable('x-powered-by');
 
 app.use(require('body-parser')());
 app.use(cookieParser());
-
+app.use(helmet());
 app.use(session({
     secret: SEC.secret || "develop",
     saveUninitialized: false,
@@ -78,9 +80,9 @@ app.post('/msg', function(req, res){
             res.send('fail');
             return false;
         }
-        console.log(data);
+        console.log(req.body.msg, xss(req.body.msg));
         res.send('success');
-        io.emit("message", {msg:req.body.msg, id:data._id});
+        io.emit("message", {msg:xss(req.body.msg), id:data._id});
         return true;
     });
 });

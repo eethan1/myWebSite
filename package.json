@@ -9,9 +9,11 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "express3-handlebars": "^0.5.2",
+    "helmet": "^3.16.0",
     "mongoose": "^5.4.22",
     "randomstring": "^1.1.5",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "xss": "^1.0.6"
   },
   "devDependencies": {},
   "scripts": {
