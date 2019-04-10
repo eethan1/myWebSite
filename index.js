@@ -88,8 +88,12 @@ app.post('/msg', function(req, res){
 });
 
 app.delete('/msg', function(req, res){
-    Msg.remove({_id:req.body._id, sid:req.sessionID}, (err, data) => {
-        if(err){
+    Msg.deleteOne({_id:req.body._id, sid:req.sessionID}, (err, data) => {
+        console.log(req.body._id);
+        // console.log(data);
+        console.log(req.sessionID);
+        console.log(data.deletedCount)
+        if(err||data.deletedCount !== 1){
             res.json({code:403});
             return console.log(err);
         }
