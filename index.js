@@ -1,5 +1,5 @@
 var express = require('express');
-var handlebars = require('express3-handlebars').create({ defaultLayout:'main'});
+var handlebars = require('express-handlebars').create({ defaultLayout:'main'});
 var cookieParser = require('cookie-parser');
 var helmet = require('helmet');
 var xss = require('xss');
@@ -12,6 +12,8 @@ const server = http.Server(app);
 const io = require('socket.io')(server);
 var Msg = require('./db').Msg;
 var randomstring = require('randomstring');
+var dcarso = require('./dcarso');
+
 
 app.VisitCnt = 0;
 console.log(app.get('env'));
@@ -37,7 +39,7 @@ app.disable('x-powered-by');
 // 	if(cluster.isWorker) console.log('Worker %d received requset ', cluster.worker.id);
 // 	next();
 // });
-
+// dcarso.middleware(app);
 app.use(require('body-parser')());
 app.use(cookieParser());
 app.use(helmet());
@@ -62,6 +64,16 @@ app.use(function(req, res, next){
 	res.locals.showTests = app.get('env') !== 'production' &&
 		req.query.test === '1';
 	next();
+});
+
+app.use((req, res, next) => {
+    if(req.session.visit){
+        req.session.visit += 1;
+    }else{
+        req.session.visit = 1;
+        app.VisitCnt += 1;
+    }
+    next();1
 });
 
 
@@ -122,18 +134,14 @@ app.get('/msg', function(req, res){
     });
 });
 app.get('/', function(req, res){
-    if(req.session.visit){
-        req.session.visit += 1;
-    }else{
-        req.session.visit = 1;
-        app.VisitCnt += 1;
-    }
     res.render('home',{
         visit: req.session.visit,
         VisitCnt:app.VisitCnt,
         socket: ARG.socket
     });
 });
+
+dcarso.addApp(app);
 
 app.use(function(req, res) {
 	console.log(`404!!${req.url}`);
