@@ -3,16 +3,21 @@ var handlebars = require('express-handlebars').create({ defaultLayout:'main'});
 var cookieParser = require('cookie-parser');
 var helmet = require('helmet');
 var xss = require('xss');
-var app = express();
 var http = require('http');
-const SEC = require('./SEC');
-const ARG = require('./ARG');
 var session = require('express-session');
+var randomstring = require('randomstring');
+
+var dcarso = require('./dcarso');
+
+// You should use your SEC.js. See SEC-default.js
+const SEC = require('./SEC');
+// You should use your ARG.js. See ARG-default.js
+const ARG = require('./ARG');
+var Msg = require('./db').Msg;
+
+var app = express();
 const server = http.Server(app);
 const io = require('socket.io')(server);
-var Msg = require('./db').Msg;
-var randomstring = require('randomstring');
-var dcarso = require('./dcarso');
 
 
 app.VisitCnt = 0;
@@ -31,18 +36,14 @@ switch(app.get('env')){
 }
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-
 app.disable('x-powered-by');
 
-// app.use(function(req, res, next){
-// 	var cluster = require('cluster');
-// 	if(cluster.isWorker) console.log('Worker %d received requset ', cluster.worker.id);
-// 	next();
-// });
-// dcarso.middleware(app);
+dcarso.middleware(app);
+
 app.use(require('body-parser')());
 app.use(cookieParser());
 app.use(helmet());
+
 app.use(session({
     secret: SEC.secret || "develop",
     saveUninitialized: false,
@@ -155,21 +156,13 @@ app.use(function(err, req, res, next){
 	res.send('Something go wrong QAQ');
 });
 
-
-
-
-
 app.set('port', process.env.PORT || ARG.port);
 function startServer() {
 	app.listen(ARG.port, ARG.host,() => {
         console.log( `Expreeso started on http://${ARG.host}:${ARG.port}`);
     });
-	// http.createServer(app).listen(app.get('port'), function(){
-	// 	console.log( 'Express started in' + app.get('env') +
-	// 		'mode on http://: ' + app.get('port') +
-	// 		'; press Ctrl-C to terminate.');
-	// })
 }
+
 if(require.main === module) {
 	startServer();
 }else{

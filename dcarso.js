@@ -1,17 +1,49 @@
 var fs = require('fs');
 var sharp = require('sharp');
 var multer = require('multer');
-// var RateLimit = require('express-rate-limit');
-var upload = multer({dest:'upload/'});
 var ipInforModel = require('./dcarsodb').IPInforModel;
-const ARG = require('./ARG');
 const requestIP = require('request-ip');
 const readChunk = require('read-chunk');
 const imageType = require('image-type');
+const fileType = require('file-type');
 var randomString = require('randomstring');
-const INTERVAL = ARG.ipLimitInterval;
-const REQLIMIT = ARG.ipLimitTimes;
 
+const ARG = require('./ARG');
+const REQLIMIT = ARG.ipLimitTimes;
+const INTERVAL = ARG.ipLimitInterval;
+const UPLOADPOSITION = ARG.uploadPosition;
+
+const imgFilter = function(name) {
+    const expr = /^.+\.(jpeg|png|jpg)$/;
+    if(name.match(/(\..*|\/.*){2,}/)){
+        console.log(`\n############\ninvalid request filename ${name}\n############\n`);
+        console.log(name.match(/(\..*|\/.*){2,}/) );
+         return false;
+    }
+    return name.match(expr);
+};
+
+var async = require('async');
+
+var dbQ = async.queue((task, finish)=>{
+    task.run();
+    finish(null);
+},1);
+
+const upload = multer({
+    dest:UPLOADPOSITION,
+    storage: multer.memoryStorage(),
+    limits:{
+        fileSize:5*1024*1024,
+        files: 1
+    },
+    fileFilter: (req, file, cb) => {
+        if (imgFilter(file.originalname)){
+            return cb(null, true);
+        }
+        return cb(new Error(`Invalid extension ${file.originalname}`));
+    }
+}).single('logo');
 // var reqLimiter = new RateLimit({
 //     windowMs:INTERVAL,
 //     max:TIMES,
@@ -25,45 +57,67 @@ var dcarsoMiddleware = function(app){
         console.log(req.url);
         var now = Date.now();
         var nowHours = ~~(now/INTERVAL);
-        res.header('X-RateLimit-Reset', nowHours+1);
-        var lastReqHours = 1;
-        ipInforModel.findOrCreateByIP(customIP).then(ipInfor=>{
-            console.log('Find: ');
-            console.log(ipInfor);
-            lastReqHours = ~~(ipInfor.lastReqTime/INTERVAL);
-            console.log(nowHours - lastReqHours);
-            ipInfor.count = ((nowHours - lastReqHours)==0)*ipInfor.count + 1;
-            ipInfor.lastReqTime = now;
-            return Promise.resolve(ipInfor);
-        })
-        .then(ipInfor=>{return ipInforModel.update(ipInfor);})
-        .then(ipInfor=>{
-            res.header('X-RateLimit-Remaining',(REQLIMIT-ipInfor.count >=0?REQLIMIT-ipInfor.count:0));
-            if(ipInfor.count > REQLIMIT) {
-                res.status(429);
-                res.send('Too Many Requests!');
-                return false;
-            } else {
-                return next();
+        res.header('X-RateLimit-Reset', nowHours+1);        
+        
+        var task = {
+            name:customIP,
+            run: ()=>{
+                ipInforModel.findOrCreateByIP(customIP, now)
+                .then((ipInfor)=>{
+                    console.log(typeof ipInfor.count);
+                    console.log(typeof REQLIMIT);
+                    if(ipInfor.count > REQLIMIT) {
+                        console.log('#######################');
+                        res.status(429);
+                        res.send('Too Many Request');
+                    } else {
+                        next();
+                    }
+                }).catch((err)=>{
+                    if(err) console.log(err);
+                });
+            },
+            callback: (err) => {
+                if(err){
+                    console.log(err);
+                    throw err;
+                }
             }
-        })
-        .catch(error=>{
-            console.log(error);
-        });
+        }
+        dbQ.push(task, task.callback);
     });
 }
 
 var dcarso = function(app){
-    app.post('/api/upload', upload.single('logo'), (req, res, next) => {
-        var file = req.file;
-        console.log(`filename: ${file.originalname}`);
-        console.log(`filepath: ${file.path}`);
-        res.send({status:200, filepath:file.path});
+    app.post('/api/img',  (req, res) => {
+            upload(req, res, err => {
+            res.status(406);
+            if(err) return res.send({status:406, 'msg':err.message});
+            var file = req.file;
+            let buffer = file.buffer;
+            const ft = fileType(buffer);
+            if(ft ===null || (ft.ext !=="jpg" && ft.ext !== "png")) return res.send({status:406, msg:'Invalid filetype', filetype:ft});
+            // file.path = __dirname + '/upload/' + randomString.generate(32) + '.' + ft.ext;
+            file.name = randomString.generate(32) + '.' + ft.ext
+            file.path = UPLOADPOSITION + file.name;
+            console.log(req.file);
+            fs.writeFile(file.path, new Buffer.from(buffer), err=>{if(err) console.log(err);});
+            res.type('application/json');
+            res.status(200);
+            return res.send({status:200, filepath:file.name, type:file.mimetype});
+        });
     });
+
+
     app.get('/api/img/:imgid', (req, res, next)=>{
         var w = Number(req.query.w);
         var h = Number(req.query.h);
-        var imgPath = __dirname+'/upload/'+req.params.imgid;
+        console.log(req.params.imgid.match(imgFilter));
+        if(!imgFilter(req.params.imgid)) {
+            res.status(403);
+            return res.send('Invalid request resource!');
+        }
+        var imgPath = UPLOADPOSITION+req.params.imgid;
         console.log(imgPath);
         var returnImg = imgPath;
         fs.exists(imgPath, (exists) => {
@@ -82,6 +136,8 @@ var dcarso = function(app){
             }
         });
     });
+
+
     app.get('/photoUploader', (req, res, next) => {
         res.render('photoUploader', {
             visit: req.session.visit,
