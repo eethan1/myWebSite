@@ -67,19 +67,18 @@ app.use(function(req, res, next){
 	next();
 });
 
-app.use((req, res, next) => {
+app.use(express.static(__dirname + '/public'));
+
+app.use(/\/(photoLoader){0,2}/, (req, res, next) => {
+    console.log(req.headers['referer']+'#################################'+req.host);
     if(req.session.visit){
         req.session.visit += 1;
     }else{
         req.session.visit = 1;
         app.VisitCnt += 1;
     }
-    next();1
+    next();
 });
-
-
-app.use(express.static(__dirname + '/public'));
-
 
 app.post('/msg', function(req, res){
     var newMsg = new Msg({
