@@ -41,8 +41,14 @@ body {
 footer {
     color: steelblue;
     display: block;
+    position: absolute;
+    bottom:0;
+}
+div {
+    text-align: center;
 }
 input {
+    margin:auto;
     font-family:'8bitlim';
     font-size: 17px;
     background-color:transparent;
