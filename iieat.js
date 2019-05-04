@@ -15,14 +15,16 @@ var restaurantSchema = new Schema({
 var iimodel = dbConnection.model(`iieat`, restaurantSchema, 'restaurant');
 var iieat = function(app) {
     app.iimodel = iimodel; 
-    app.get('/iieat/add',(req, res, next) => {
-        var name = xss(req.query.name);
+    app.get('/iieat/add', (req, res, next) => {
+        res.render('iieatadd');
+    });
+    app.post('/iieat/add',(req, res, next) => {
+        var name = xss(req.body.name);
         app.iimodel.create({name:name, id:0}, (err, reply)=>{
             console.log(err);
             console.log(reply);
         });
-        res.render('iieat');
-
+        res.render('iieatadd');
     });
     app.get('/iieat',(req, res, next) => {
         if(!req.query.submit){
