@@ -54,7 +54,6 @@ const upload = multer({
 var dcarsoMiddleware = function(app){
     app.use((req, res, next) => {
         const customIP = requestIP.getClientIp(req);
-        console.log(req.url);
         var now = Date.now();
         var nowHours = ~~(now/INTERVAL);
         res.header('X-RateLimit-Reset', nowHours+1);        
@@ -64,10 +63,7 @@ var dcarsoMiddleware = function(app){
             run: ()=>{
                 ipInforModel.findOrCreateByIP(customIP, now)
                 .then((ipInfor)=>{
-                    console.log(typeof ipInfor.count);
-                    console.log(typeof REQLIMIT);
                     if(ipInfor.count > REQLIMIT) {
-                        console.log('#######################');
                         res.status(429);
                         res.send('Too Many Request');
                     } else {
@@ -100,7 +96,6 @@ var dcarso = function(app){
             // file.path = __dirname + '/upload/' + randomString.generate(32) + '.' + ft.ext;
             file.name = randomString.generate(32) + '.' + ft.ext
             file.path = UPLOADPOSITION + file.name;
-            console.log(req.file);
             fs.writeFile(file.path, new Buffer.from(buffer), err=>{if(err) console.log(err);});
             res.type('application/json');
             res.status(200);
@@ -112,13 +107,13 @@ var dcarso = function(app){
     app.get('/api/img/:imgid', (req, res, next)=>{
         var w = Number(req.query.w);
         var h = Number(req.query.h);
-        console.log(req.params.imgid.match(imgFilter));
+        // console.log(req.params.imgid.match(imgFilter));
         if(!imgFilter(req.params.imgid)) {
             res.status(403);
             return res.send('Invalid request resource!');
         }
         var imgPath = UPLOADPOSITION+req.params.imgid;
-        console.log(imgPath);
+        // console.log(imgPath);
         var returnImg = imgPath;
         fs.exists(imgPath, (exists) => {
             if(exists) {

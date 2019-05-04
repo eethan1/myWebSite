@@ -8,7 +8,7 @@ var session = require('express-session');
 var randomstring = require('randomstring');
 
 var dcarso = require('./dcarso');
-
+var iieat = require('./iieat');
 // You should use your SEC.js. See SEC-default.js
 const SEC = require('./SEC');
 // You should use your ARG.js. See ARG-default.js
@@ -70,7 +70,6 @@ app.use(function(req, res, next){
 app.use(express.static(__dirname + '/public'));
 
 app.use(/\/(photoLoader){0,2}/, (req, res, next) => {
-    console.log(req.headers['referer']+'#################################'+req.host);
     if(req.session.visit){
         req.session.visit += 1;
     }else{
@@ -92,7 +91,6 @@ app.post('/msg', function(req, res){
             res.send('fail');
             return false;
         }
-        console.log(req.body.msg, xss(req.body.msg));
         res.send('success');
         io.emit("message", {msg:xss(req.body.msg), id:data._id});
         return true;
@@ -101,10 +99,6 @@ app.post('/msg', function(req, res){
 
 app.delete('/msg', function(req, res){
     Msg.deleteOne({_id:req.body._id, sid:req.sessionID}, (err, data) => {
-        console.log(req.body._id);
-        // console.log(data);
-        console.log(req.sessionID);
-        console.log(data.deletedCount)
         if(err||data.deletedCount !== 1){
             res.json({code:403});
             return console.log(err);
@@ -142,7 +136,7 @@ app.get('/', function(req, res){
 });
 
 dcarso.addApp(app);
-
+iieat.addApp(app);
 app.use(function(req, res) {
 	console.log(`404!!${req.url}`);
 	res.status(404);
