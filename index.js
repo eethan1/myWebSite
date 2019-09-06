@@ -2,23 +2,16 @@ var express = require('express');
 var handlebars = require('express-handlebars').create({ defaultLayout:'main'});
 var cookieParser = require('cookie-parser');
 var helmet = require('helmet');
-var xss = require('xss');
-var http = require('http');
 var session = require('express-session');
 var randomstring = require('randomstring');
 
-var dcarso = require('./dcarso');
 var iieat = require('./iieat');
 // You should use your SEC.js. See SEC-default.js
 const SEC = require('./SEC');
-// You should use your ARG.js. See ARG-default.js
-const ARG = require('./ARG');
-var Msg = require('./db').Msg;
+// You should use your config.js. See config-default.js
+global.config = require('./config');
 
 var app = express();
-const server = http.Server(app);
-const io = require('socket.io')(server);
-
 
 app.VisitCnt = 0;
 console.log(app.get('env'));
@@ -38,8 +31,6 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.disable('x-powered-by');
 
-dcarso.middleware(app);
-
 app.use(require('body-parser')());
 app.use(cookieParser());
 app.use(helmet());
@@ -47,6 +38,7 @@ app.use(helmet());
 app.use(session({
     secret: SEC.secret || "develop",
     saveUninitialized: false,
+    resave: false,
     cookie: {
         maxAge: 30*60*1000,
         httpOnly:true,
@@ -79,63 +71,18 @@ app.use(/\/(photoLoader){0,2}/, (req, res, next) => {
     next();
 });
 
-app.post('/msg', function(req, res){
-    var newMsg = new Msg({
-        time:Date(),
-        sid:req.cookies['connect.sid'].substring(2,34),
-        msg:req.body.msg
-    });
-    newMsg.save((err, data)=>{
-        if(err) {
-            console.log(err);
-            res.send('fail');
-            return false;
-        }
-        res.send('success');
-        io.emit("message", {msg:xss(req.body.msg), id:data._id});
-        return true;
-    });
-});
 
-app.delete('/msg', function(req, res){
-    Msg.deleteOne({_id:req.body._id, sid:req.sessionID}, (err, data) => {
-        if(err||data.deletedCount !== 1){
-            res.json({code:403});
-            return console.log(err);
-        }
-        res.json({code:200});
-        io.emit('delMsg', {id:req.body._id});
-        return false;
-    })
-});
+var apiLoader = require('./api/apiLoader')
+apiLoader(app);
 
-app.get('/msg', function(req, res){
-    Msg.find().exec((err, data) => {
-        if(err) {
-            console.log(err);
-            res.send('fail');
-            return false;
-        }
-        for(i=0;i < data.length;++i){
-            if(data[i].sid !== req.sessionID) {
-                data[i].sid = false;
-            }else{
-                data[i].sid = true;
-            }
-        }
-        res.send(data);
-        return true;
-    });
-});
 app.get('/', function(req, res){
     res.render('home',{
         visit: req.session.visit,
         VisitCnt:app.VisitCnt,
-        socket: ARG.socket
+        socket: config.socket
     });
 });
 
-dcarso.addApp(app);
 iieat.addApp(app);
 app.use(function(req, res) {
 	console.log(`404!!${req.url}`);
@@ -149,10 +96,10 @@ app.use(function(err, req, res, next){
 	res.send('Something go wrong QAQ');
 });
 
-app.set('port', process.env.PORT || ARG.port);
+app.set('port', process.env.PORT || config.port);
 function startServer() {
-	app.listen(ARG.port, ARG.host,() => {
-        console.log( `Expreeso started on http://${ARG.host}:${ARG.port}`);
+	app.listen(config.port, config.host,() => {
+        console.log( `Expreeso started on http://${config.host}:${config.port}`);
     });
 }
 
@@ -161,12 +108,3 @@ if(require.main === module) {
 }else{
 	module.exports = startServer;
 }
-
-io.on('connection', (socket) =>{
-    console.log('connected');
-    socket.on("disconnect", ()=>{
-        console.log('disconnected');
-    });
-});
-
-server.listen(ARG.socketPort);

@@ -1,7 +1,7 @@
-const ARG = require('./ARG');
+const config = require('./config');
 var xss = require('xss');
 var mongoose = require('mongoose');
-var dbConnection = mongoose.createConnection(`mongodb://${ARG.dbIP}/iieat`);
+var dbConnection = mongoose.createConnection(`mongodb://${config.dbIP}/iieat`);
 dbConnection.on('error', (err) => {
     console.log('connect 7oeat failed');
     console.log(err)
