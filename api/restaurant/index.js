@@ -27,7 +27,6 @@ router.use('/restaurant',(req, res, next) => {
             for(let k in req.query.q){
                 console.log(k);
                 if(toNum.includes(k)) {
-                    console.log('!!!!!!!!!!')
                     req.query.q[k] = Number(req.query.q[k]);
                 }else if(req.query.q[k] == ''){
                     delete req.query.q[k];
@@ -37,12 +36,10 @@ router.use('/restaurant',(req, res, next) => {
                 req.query.c[k] = Number(req.query.c[k]);
             }
         }
-        
     }catch(error) {
         console.error(error);
         res.sendStatus(503);
     }
-
     console.log(`after parse\nbody: `);
     console.log(req.body);
     console.log(`query: `);
@@ -51,18 +48,9 @@ router.use('/restaurant',(req, res, next) => {
 });
 
 router.get('/restaurant/infos',(req, res) => {
-    Promise.all([
-        Restaurant.find().distinct('region').lean()            
-    , 
-    ]).then(results => {
-        res.json(results);
-    });
-});
-
-router.get('/restaurant/name',(req, res) => {
-    Restaurant.find().distinct('region').lean()            
-    .then(results => {
-        res.json(results);
+    res.json({
+        regions:Restaurant.schema.obj.region.enum,
+        weathers:Restaurant.schema.obj.weather.enum
     });
 });
 
@@ -110,7 +98,18 @@ router.route('/restaurant')
         var num = req.query.c.n || 10;
         var skip = req.query.c.skip || 0;
         // Restaurant.find().skip(skip).limit(num)
-        var query = req.query.q || null;
+        if(req.query.q['weather'] == '都可') {
+            req.query.q['weather'] = {$ne:'Null'};
+        }
+        if(req.query.q['region'] == '都可') {
+            req.query.q['region'] = {$ne:'Null'};
+        }
+        var query = {
+            region:req.query.q.region,
+            weather:req.query.q.weather,
+            preference:{$gte:req.query.q.preference},
+            money:{$lte:req.query.q.money}
+        }
         console.log('#####Query#####')
         console.log(query);
         console.log({skip:skip, limit:num});
@@ -120,7 +119,7 @@ router.route('/restaurant')
                     console.error(err);
                     return res.sendStatus(503);
                 }
-                return res.send(docs);
+                return res.send(docs);xss       
             });
     })
     .post((req, res) => {
@@ -130,6 +129,7 @@ router.route('/restaurant')
             query
             ,(err, created) => {
             if (err) {
+                console.log('Jizz');
                 console.error(err);
                 return res.sendStatus(406);
             }

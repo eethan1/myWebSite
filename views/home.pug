@@ -22,5 +22,5 @@ block content
             #msgBox.center
     script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js')
     script.
-        socket = io.connect('ws://{{socket}}');
+        socket = io.connect('ws://#{socket}');
     script(src='/js/chatbox.js')

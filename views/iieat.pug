@@ -12,7 +12,7 @@ block content
                     input#name(type='text' name='name' placeholder='店名').form-control
                 .form-group.col-5.center
                     textarea#name(type='textarea' name='comment' value='' placeholder='備註').form-control
-            #form.form-row.justify-content-center
+            #opt-form.form-row.justify-content-center
                 .form-group.col-3
                     label(for='inputRegion')='地區'
                     select#inputRegion(name='region').form-control
@@ -20,11 +20,7 @@ block content
                 .form-group.col-3
                     label(for='inputWeather')='天氣'
                     select#inputWeather(name='weather').form-control
-                        option(selected value='sun')='晴天'
-                        option(value='hot')='熱爆'
-                        option(value='rain')='下雨'
-                        option(value='cool')='很涼'
-                        option(value='cold')='冷'
+                        option(v-for='weather in weathers' v-bind:value='weather')='{{weather}}'
             #range-form.form-group.center.col-5
                 .form-group
                     label(for='preference')='偏好度: {{preference}}'
@@ -34,12 +30,12 @@ block content
                     input#money(type='range' name='money' min='50' max='200' v-model="money").form-control-range
         
             .form-row.justify-content-center
-                .form-group
+                .form-group.col-3
                     button#act-btn(type='submit' onclick='submitQuery()').btn.btn-primary='Search!'
-                .form-group
+                .form-group.col-3
                     button#alt-btn(type='submit' onclick='altForm()').btn.btn-primary='Add?'
         #result
-            p(v-bind:value='result')='{{result}}'
+            p(v-bind:value='result').center='{{result}}'
 block scripts
     script(src='/js/iieatv2.js')
     link(rel='stylesheet' href='/style/iieat.css')

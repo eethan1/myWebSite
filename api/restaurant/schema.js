@@ -1,6 +1,7 @@
 var mongoose = require('../../db').mongooseInstance
 var Schema = mongoose.Schema
 var enabledSchemas = ['Restaurant']
+
 var Restaurant = {
     name: {
         type:String,
@@ -10,6 +11,7 @@ var Restaurant = {
     region: {
         type:String,
         required:true,
+        enum:['都可','公館','水源','118','汀州路','吳興街']
     },
     preference: {
         type:Number,
@@ -21,6 +23,7 @@ var Restaurant = {
     weather: {
         type:String,
         required:true,
+        enum:['都可','晴天','熱爆','下雨','很涼','冷']
     },
     money: {
         type:Number,

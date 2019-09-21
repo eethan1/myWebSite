@@ -1,6 +1,8 @@
 var vm = new Vue({
-    el:'#inputRegion',
-    data: {regions: []
+    el:'#opt-form',
+    data: {
+        regions: [],
+        weathers: []
     }
 });
 var result = new Vue({
@@ -15,12 +17,13 @@ var rangeForm = new Vue({
     }
 })
 $.ajax({
-    url: '/api/restaurant/name',
+    url: '/api/restaurant/infos',
     type: 'GET',
     dataType: 'json',
     success: (res) => {
         console.log(res);
-        vm.$data.regions = res;
+        vm.$data.regions = res.regions;
+        vm.$data.weathers = res.weathers;
     }
 }).then(()=>{
     vm.$el.children[0].selected = true;
@@ -61,9 +64,16 @@ function getRestaurant() {
         url: '/api/restaurant',
         type: 'GET',
         data:{q:query,c:{n:10,skip:0}},
-        success: (res) => {
+        success: (res,textStatus) => {
+            console.log(textStatus);
             console.log(res);
-            result.$data.result = res[0].name;
+            result.$data.result = res[Math.floor(Math.random()*res.length)].name;
+        },
+        error: (xhr,textStatus, err) => {
+            console.log(textStatus);
+            console.log(xhr.status);
+            console.log(err);
+            result.$data.result = 'Something Wrong<br>Forgive me ii';
         }
     });
 }
@@ -77,13 +87,17 @@ function addRestaurant() {
         url: '/api/restaurant',
         type: 'POST',
         data:{q:query,c:{n:1,skip:0}},
-        success: (res) => {
+        success: (res, textStatus,xhr) => {
+            console.log(textStatus);
+            console.log(xhr.status);
             console.log(res);
-            result.$data.result = "Success add " + $('#name').val();
+            result.$data.result = "Success to add " + $('#name').val();
         },
-        fail: (err, res) => {
+        error: (xhr, textStatus, err) => {
+            console.log(textStatus);
+            console.log(xhr.status);
             console.log(err);
-            console.log(res);
+            result.$data.result = "Fail to add " + $('#name').val();
         }
     });
 }
