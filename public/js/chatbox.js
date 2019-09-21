@@ -29,7 +29,7 @@ var deleteMsg = function(id){
     return function(){
         console.log(id);
         $.ajax({
-            url: '/msg',
+            url: '/api/msg',
             type: 'DELETE',
             data:{
                 _id:id
@@ -51,7 +51,7 @@ var sendMsg = function(event){
     var msg = document.getElementById('msgInput').value;
     console.log("send: ",msg);
     $.post({
-        url: '/msg',
+        url: '/api/msg',
         type:'POST',
         data: {
             msg:msg,

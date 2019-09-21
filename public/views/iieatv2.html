@@ -1,0 +1,42 @@
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container col-10">
+        <form method="post">
+            <div class="form-row justify-content-center">
+                <div class="form-group col-2">
+                    <label for="inputRegion">地區</label>
+                    <select id="inputRegion" name="region" class="form-control">
+                        <option v-for="region in regions" v-bind:value="region">{{region}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-2">
+                    <label for="inputWeather">天氣</label>
+                    <select id="inputWeather" name="weather" class="form-control">
+                        <option selected value="sun">晴天</option>
+                        <option value="hot">熱爆</option>
+                        <option value="rain">下雨</option>
+                        <option value="cool">很涼</option>
+                        <option value="cold">冷</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group justify-content-center">
+                <div class="form-row">
+                    <label for="preference">偏好度</label>
+                    <input type="range" class="form-control-range" id="preference" name="preference">
+                </div>
+                <div class="form-group">
+                    <label for="money">錢錢</label>
+                    <input type="range" class="form-control-range" id="money" name="money">
+                </div>
+            </div>
+        </form>
+        <button class="btn btn-primary" type="submit" onclick="getRestaurant()">Search!</button>
+    </div>
+    <script src="/js/iieatv2.js"></script>
+</body>

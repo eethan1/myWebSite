@@ -1,0 +1,45 @@
+extends layouts/main.pug
+
+block head
+    link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js')
+block content
+    #container-1.container.col-10
+        form(method='get')
+            #add-form.form-group(style='display: none;')
+                .form-group.col-5.center
+                    input#name(type='text' name='name' placeholder='店名').form-control
+                .form-group.col-5.center
+                    textarea#name(type='textarea' name='comment' value='' placeholder='備註').form-control
+            #form.form-row.justify-content-center
+                .form-group.col-3
+                    label(for='inputRegion')='地區'
+                    select#inputRegion(name='region').form-control
+                        option(v-for='region in regions' v-bind:value='region')='{{region}}'
+                .form-group.col-3
+                    label(for='inputWeather')='天氣'
+                    select#inputWeather(name='weather').form-control
+                        option(selected value='sun')='晴天'
+                        option(value='hot')='熱爆'
+                        option(value='rain')='下雨'
+                        option(value='cool')='很涼'
+                        option(value='cold')='冷'
+            #range-form.form-group.center.col-5
+                .form-group
+                    label(for='preference')='偏好度: {{preference}}'
+                    input#preference(type='range' name='preference' min='0' max='100' v-model="preference").form-control-range
+                .form-group
+                    label(for='money')='錢錢: {{money}}'
+                    input#money(type='range' name='money' min='50' max='200' v-model="money").form-control-range
+        
+            .form-row.justify-content-center
+                .form-group
+                    button#act-btn(type='submit' onclick='submitQuery()').btn.btn-primary='Search!'
+                .form-group
+                    button#alt-btn(type='submit' onclick='altForm()').btn.btn-primary='Add?'
+        #result
+            p(v-bind:value='result')='{{result}}'
+block scripts
+    script(src='/js/iieatv2.js')
+    link(rel='stylesheet' href='/style/iieat.css')

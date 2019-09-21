@@ -26,7 +26,7 @@ body {
     zoom: 1;
 }
 
-.d-title{
+#d-title{
     height: 200px;
 }
 
@@ -65,7 +65,7 @@ input::placeholder{
     height: 300px;
     width: auto;
 }
-.d-selfie{
+#d-selfie{
     vertical-align: center;
 }
 a {

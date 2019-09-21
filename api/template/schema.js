@@ -1,13 +1,14 @@
 var mongoose = require('../../db').mongooseInstance
 var Schema = mongoose.Schema
-var enabledSchemas = ['Msg']
-var Msg = {
-    sid: String,
-    msg: String,
-    time:String
+var enabledSchemas = ['Restaurant']
+var Restaurant = {
+    _id: {
+        type:String,
+        required:true,
+        index:true,
+        unique:true
+    },
 };
-
-
 var schemas = {}
 enabledSchemas.forEach( schema => {
     schemas[schema] = new Schema(eval(schema));

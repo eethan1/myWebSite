@@ -1,15 +1,16 @@
+// You should use your SEC.js. See SEC-default.js
+const SEC = require('./SEC');
+// You should use your config.js. See config-default.js
+global.config = require('./config');
+
 var express = require('express');
-var handlebars = require('express-handlebars').create({ defaultLayout:'main'});
+// var handlebars = require('express-handlebars').create({ defaultLayout:'main'});
 var cookieParser = require('cookie-parser');
 var helmet = require('helmet');
 var session = require('express-session');
 var randomstring = require('randomstring');
 
-var iieat = require('./iieat');
-// You should use your SEC.js. See SEC-default.js
-const SEC = require('./SEC');
-// You should use your config.js. See config-default.js
-global.config = require('./config');
+var iieat = require('./apps/iieat');
 
 var app = express();
 
@@ -27,8 +28,12 @@ switch(app.get('env')){
 		//app.use();
 		break;
 }
-app.engine('handlebars', handlebars.engine);
-app.set('view engine', 'handlebars');
+// app.engine('handlebars', handlebars.engine);
+// app.set('view engine', 'handlebars');
+
+app.set('view engine','pug')
+app.set('views', __dirname+'/views')
+
 app.disable('x-powered-by');
 
 app.use(require('body-parser')());
@@ -83,7 +88,15 @@ app.get('/', function(req, res){
     });
 });
 
-iieat.addApp(app);
+app.use('/iieat',iieat.app);
+// app.get('/iieatv2', (req, res) => {
+//     res.sendFile(__dirname+'/public/views/iieatv2.html');
+// });
+
+// app.post('/iieatv2', (req, res) => {
+//     res.sendFile(__dirname+'/public/views/iieatv2.html');
+// });
+
 app.use(function(req, res) {
 	console.log(`404!!${req.url}`);
 	res.status(404);
