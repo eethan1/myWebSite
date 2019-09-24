@@ -67,6 +67,9 @@ function getRestaurant() {
         success: (res,textStatus) => {
             console.log(textStatus);
             console.log(res);
+            if(res.length == 0){
+                result.$data.result = "Nothing to be found."
+            } 
             result.$data.result = res[Math.floor(Math.random()*res.length)].name;
         },
         error: (xhr,textStatus, err) => {
