@@ -1,3 +1,4 @@
+'use strict';
 // You should use your SEC.js. See SEC-default.js
 const SEC = require('./SEC');
 // You should use your config.js. See config-default.js
@@ -11,6 +12,7 @@ var session = require('express-session');
 var randomstring = require('randomstring');
 
 var iieat = require('./apps/iieat');
+var risu = require('./apps/risuDownloader');
 
 var app = express();
 
@@ -96,6 +98,7 @@ app.use('/iieat',iieat.app);
 // app.post('/iieatv2', (req, res) => {
 //     res.sendFile(__dirname+'/public/views/iieatv2.html');
 // });
+app.use('/risu', risu.app);
 
 app.use(function(req, res) {
 	console.log(`404!!${req.url}`);
