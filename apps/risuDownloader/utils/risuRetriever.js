@@ -3,9 +3,10 @@ var cheerio = require('cheerio');
 var fs = require('fs');
 // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const BaseUrl = 'https://risu.io/'
+//'proxy':'http://localhost:8080', 
 var getFileUrl = async function (hash,password) {
     const j = request.jar();
-    var sess = request.defaults({'proxy':'http://localhost:8080', jar:j});
+    var sess = request.defaults({jar:j});
     let url = BaseUrl+hash;
     return sess.get({
         url: url, 
