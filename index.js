@@ -6,6 +6,7 @@ global.config = require('./config');
 
 var express = require('express');
 // var handlebars = require('express-handlebars').create({ defaultLayout:'main'});
+var cors = require('cors');
 var cookieParser = require('cookie-parser');
 var helmet = require('helmet');
 var session = require('express-session');
@@ -38,6 +39,12 @@ app.set('views', __dirname+'/views')
 
 app.disable('x-powered-by');
 
+
+app.use(cors({
+    origin:[
+        `http://${global.config.host}:${global.config.socketPort}`
+    ]
+}));
 app.use(require('body-parser')());
 app.use(cookieParser());
 app.use(helmet());
