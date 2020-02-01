@@ -38,13 +38,8 @@ app.set('view engine','pug')
 app.set('views', __dirname+'/views')
 
 app.disable('x-powered-by');
+console.log(`http://${global.config.host}:${global.config.socketPort}`)
 
-
-app.use(cors({
-    origin:[
-        `http://${global.config.host}:${global.config.socketPort}`
-    ]
-}));
 app.use(require('body-parser')());
 app.use(cookieParser());
 app.use(helmet());
@@ -84,6 +79,14 @@ app.use(/\/(photoLoader){0,2}/, (req, res, next) => {
     }
     next();
 });
+
+const corsOptions = {
+    origin:`http://${global.config.host}:${global.config.socketPort}`
+    ,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
 
 
 var apiLoader = require('./api/apiLoader')
