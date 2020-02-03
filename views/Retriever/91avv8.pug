@@ -1,4 +1,4 @@
-extends layouts/main.pug
+extends /layouts/main.pug
 
 block head
     link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous')
@@ -9,9 +9,7 @@ block content
         form(method='post')
             #add-form.form-group()
                 .form-group.col-5.center
-                    input#name(type='text' name='hash' placeholder='Hash Value').form-control
-                .form-group.col-5.center
-                    input#name(type='text' name='password' placeholder='password').form-control
+                    input#name(type='text' name='index' placeholder='index').form-control
             .form-row.justify-content-center
                 .form-group.col-3
                     button#act-btn(type='submit').btn.btn-primary='Retrieve!'

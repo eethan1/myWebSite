@@ -13,7 +13,7 @@ var session = require('express-session');
 var randomstring = require('randomstring');
 
 var iieat = require('./apps/iieat');
-var risu = require('./apps/risuDownloader');
+var gentleman = require('./apps/gentleman');
 
 var app = express();
 
@@ -36,7 +36,7 @@ switch(app.get('env')){
 
 app.set('view engine','pug')
 app.set('views', __dirname+'/views')
-
+app.locals.basedir = app.get('views');
 app.disable('x-powered-by');
 console.log(`http://${global.config.host}:${global.config.socketPort}`)
 
@@ -108,7 +108,7 @@ app.use('/iieat',iieat.app);
 // app.post('/iieatv2', (req, res) => {
 //     res.sendFile(__dirname+'/public/views/iieatv2.html');
 // });
-app.use('/risu', risu.app);
+app.use('/', gentleman.app);
 
 app.use(function(req, res) {
 	console.log(`404!!${req.url}`);

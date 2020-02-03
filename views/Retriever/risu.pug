@@ -1,0 +1,17 @@
+extends /layouts/main.pug
+
+block head
+    link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous')
+    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js')
+block content
+    #container-1.container.col-10
+        form(method='post')
+            #add-form.form-group()
+                .form-group.col-5.center
+                    input#name(type='text' name='hash' placeholder='Hash Value').form-control
+                .form-group.col-5.center
+                    input#name(type='text' name='password' placeholder='password').form-control
+            .form-row.justify-content-center
+                .form-group.col-3
+                    button#act-btn(type='submit').btn.btn-primary='Retrieve!'
