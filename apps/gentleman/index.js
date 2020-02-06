@@ -1,7 +1,7 @@
 var router = require('express').Router();
 var risUtil = require('./utils/risuRetriever');
 var avv8 = require('./utils/91avv8Retriever');
-
+var c5278 = require('./utils/5278Retriever');
 router.get('/risu', (req, res) => {
     res.render('Retriever/risu');
 });
@@ -30,7 +30,21 @@ router.post('/91avv8', (req, res) => {
         }
     })
 });
-
+router.get('/5278', (req, res) => {
+    res.render('Retriever/5278');
+});
+router.post('/5278', (req, res) => {
+    var index = req.body.index;
+    c5278.getFileStream(index).then( (s) => {
+        if(s == 'Failed'){
+            res.send('Failed');
+        }else{
+            res.setHeader('content-disposition',`attachment; filename=${index}.ts`);
+            res.setHeader("content-type","video/MP2T");
+            s.pipe(res);
+        }
+    })
+});
 
 
 module.exports = {
