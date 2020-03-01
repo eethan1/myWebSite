@@ -108,7 +108,10 @@ app.use('/iieat',iieat.app);
 // app.post('/iieatv2', (req, res) => {
 //     res.sendFile(__dirname+'/public/views/iieatv2.html');
 // });
+
 app.use('/', gentleman.app);
+
+
 
 app.use(function(req, res) {
 	console.log(`404!!${req.url}`);
