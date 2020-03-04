@@ -32,7 +32,7 @@ i18n_dir: :lang
 skip_render:
 
 # Writing
-new_post_name: :title.md # File name of new posts
+new_post_name: :year-:month-:day-:title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
 external_link:
@@ -99,3 +99,10 @@ theme: cactus-dark
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: ''
+
+
+# hexo-admin authentification
+admin:
+  username: cjiso
+  password_hash: $2a$10$2qzmadDLBHrA32qycLMKJuPHovPSPQjBsMumEVKS.AYaJ5kY7VS6y
+  secret: 8787878787asdasudhiqhiwh9128dhuhausdh
