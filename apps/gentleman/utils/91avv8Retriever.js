@@ -34,10 +34,15 @@ var getFileUrl = async function (index) {
     // sess.cookie()
     // var res = sess.post()
 }
-getFileUrl('170378').then((pos)=>{
-    console.log('Load 91aav');
-    console.log('Video pos: '+pos);
-})
+try{
+    getFileUrl('170378').then((pos)=>{
+        console.log('Load 91aav');
+        console.log('Video pos: '+pos);
+    });
+}catch(e) {
+    console.error(e);
+}
+
 module.exports = {
     getFileUrl:getFileUrl
 }
