@@ -54,13 +54,6 @@ var getFileUrl = async function (hash,password) {
     // sess.cookie()
     // var res = sess.post()
 }
-try{
-    getFileUrl('/t8a','0201').then((pos)=>{
-        console.log(pos);
-    });
-}catch(e) {
-    console.error(e);
-}
 
 module.exports = {
     getFileUrl:getFileUrl

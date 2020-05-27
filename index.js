@@ -81,7 +81,7 @@ app.use(/\/(photoLoader){0,2}/, (req, res, next) => {
 });
 
 const corsOptions = {
-    origin:`http://${global.config.host}:${global.config.socketPort}`
+    origin:`https://${global.config.host}:${global.config.socketPort}`
     ,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: ['Content-Type', 'Authorization'],

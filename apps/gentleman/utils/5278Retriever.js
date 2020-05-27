@@ -77,13 +77,11 @@ var getFileStream = async function(url){
         resolv(s);
     });
 }
-// getFileStream('1026053').then(s=>{
-//     s.pipe(fs.createWriteStream('./zzz'));
-//     return;
-// });
+
 
 module.exports = {
     getPlayerUrl:getPlayerUrl,
     getm3u8Url:getm3u8Url,
-    getFileStream:getFileStream
+    getFileStream:getFileStream,
+    getm3u8Stream:m3u8stream
 }
