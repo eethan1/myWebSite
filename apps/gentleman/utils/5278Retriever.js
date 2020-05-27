@@ -1,5 +1,6 @@
 var request = require('request-promise');
 var cheerio = require('cheerio');
+var got = require('got');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
 const m3u8stream = require('m3u8stream');
@@ -78,10 +79,18 @@ var getFileStream = async function(url){
     });
 }
 
+var getm3u8Stream = async function (url) {
+    let res = await got(url, {headers:{
+        Referer: 'https://5278.cc' 
+    }});
+    let m3u8url = res.body.match(/'http.*m3u8.*'/)[0].slice(1,-1);
+    return m3u8stream(m3u8url);
+} 
+
 
 module.exports = {
     getPlayerUrl:getPlayerUrl,
     getm3u8Url:getm3u8Url,
     getFileStream:getFileStream,
-    getm3u8Stream:m3u8stream
+    getm3u8Stream:getm3u8Stream
 }
