@@ -33,6 +33,7 @@ router.post('/91avv8', (req, res) => {
 router.get('/5278', (req, res) => {
     if(req.query.m3u8url){
         let s = c5278.getm3u8Stream(req.query.m3u8url);
+	console.log(req.query.m3u8url);
         res.setHeader('content-disposition',`attachment;`);
         res.setHeader("content-type","video/MP2T");
         s.pipe(res);
@@ -58,7 +59,6 @@ router.post('/5278', (req, res) => {
         s.pipe(res);
     }
 });
-
 
 module.exports = {
     app: router
