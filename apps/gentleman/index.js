@@ -6,14 +6,19 @@ router.get('/risu', (req, res) => {
     res.render('Retriever/risu');
 });
 router.post('/risu', (req, res) => {
-    var hash = req.body.hash;
-    var password = req.body.password;
-    risUtil.getFileUrl(hash, password).then( (pos) => {
-        if(pos == 'Failed'){
-            res.send('Wrong password');
+    let hash = req.body.hash;
+    let password = req.body.password;
+    let match  = /risu\.io/.exec(hash);
+    if(match) {
+        hash = hash.slice(match.index+7);
+    }
+    risUtil.getFileElement(hash, password).then( (elm) => {
+        if(elm == 'Failed'){
+            res.send('Failed');
         }else{
-            res.send(`<a href=${pos} rel=noreferrer>Be a Gentleman</a>`);
+            res.send(elm);
         }
+        return;
     })
 });
 
