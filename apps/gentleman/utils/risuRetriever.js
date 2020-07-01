@@ -4,9 +4,10 @@ var fs = require('fs');
 // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const BaseUrl = 'https://risu.io/'
 //'proxy':'http://localhost:8080', 
-var getFileUrl = async function (hash,password) {
+
+var getFileInfo = async function(hash, password) {
     const j = request.jar();
-    var sess = request.defaults({jar:j});
+    let sess = request.defaults({jar:j});
     let url = BaseUrl+hash;
     return sess.get({
         url: url, 
@@ -44,17 +45,39 @@ var getFileUrl = async function (hash,password) {
             if(!body.file_infos) {
                 return 'Failed';
             }
-            let pos = body.file_infos[0].file_path;
-            return pos;
+            return body;
         })
         return a;
     }).catch((err) => {
         console.log(err);
     });
-    // sess.cookie()
-    // var res = sess.post()
 }
 
+var getFileUrl = async function (hash,password) {
+    let body = await getFileInfo(hash, password);
+    if(body === 'failed') {
+        return 'failed';
+    }
+    return body.file_infos[0].file_path;
+}
+
+
+
+var getFileElement = async function(hash, password) {
+    let body = await getFileInfo(hash, password);
+    if(body === 'failed') {
+        return 'failed';
+    }
+    let pos = body.file_infos[0].file_path;
+    if(/http/.exec(pos)) {
+        return `<a href=${pos} rel=noreferrer>Be a Gentleman</a>`;
+    }else{
+        return `<img src="${pos}" name="${body.file_infos[0].filename}" >Be a Gentleman</img>`;
+
+    }
+}
 module.exports = {
-    getFileUrl:getFileUrl
+    getFileUrl:getFileUrl,
+    getFileInfo,getFileInfo,
+    getFileElement:getFileElement,
 }
