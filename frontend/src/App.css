@@ -1,0 +1,92 @@
+body {
+  font-family: '8bitlim';
+  background-image: url('/public/img/bg.png');
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: rgb(10, 20, 60);
+}
+p {
+  color: white;
+}
+
+.sect {
+  text-align: center;
+  height: 250px;
+  display: block;
+  border-style: dotted;
+  margin: 1em;
+  zoom: 1;
+}
+#d-intro {
+  height: 150px;
+}
+#d-title {
+  line-height: 100px;
+}
+@font-face {
+  font-family: '8bitlim';
+  src: url('/public/fonts/8-bit-limit/8bitlim.ttf') format('truetype');
+}
+
+#d-title {
+  height: 200px;
+}
+input {
+  margin: auto;
+  font-family: '8bitlim';
+  font-size: 17px;
+  background-color: transparent;
+  border: none;
+  border-style: hidden;
+  text-align: center;
+}
+input::placeholder {
+  text-align: center;
+  color: #816f6f;
+}
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#selfie {
+  vertical-align: center;
+  height: 300px;
+  width: auto;
+}
