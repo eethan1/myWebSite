@@ -1,0 +1,24 @@
+#result>p {
+    font-size: 1.2em;
+}
+#container-1 {
+    margin-top: 3vh;
+}
+p {
+    background-color: rgba(48,84,145,0.3);
+}
+label {
+    background-color: rgba(48,84,145,0.3);
+    color: white;
+}
+select {
+    background-color: rgba(48,84,145,0.5);
+}
+input::placeholder {
+    color:blue;
+    opacity: 1;
+}
+textarea::placeholder {
+    color:blue;
+    opacity: 1;
+}

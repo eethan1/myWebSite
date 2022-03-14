@@ -1,0 +1,29 @@
+<div>
+    <div id="d-title" class='sect d-title'>
+        <h1 id='title' class='center'> Y g g d 2 m i r </h1>
+        <h6 id='visit'>you have visited {{visit}} times</h5>
+    </div>
+
+    <div id="d-selfie" class='sect d-selfie'>
+        <img id="selfie" class="center" src="img/selfie.jpg" alt='selfie'>
+    </div>
+    <div id="d-intro" class='sect'>
+        <p> I am born to be a farmer.</p>
+        <p> I believe that farmer is born to kill bugs everyday</p>
+        <p> Until I do only dig serveral holes and jump into them.</p>
+        <p> My life consists of Ramen, code, bugs, game, and catnight.</p>
+    </div>
+    <div class='sect chatbox'>
+        <div>
+            <input id='msgInput' name="msg" value="" onkeypress="sendMsg(event);" placeholder="Leave something?">
+        </div>
+        <div id="msgBox" class="center">
+            
+        </div>
+    </div>
+
+</div>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js'></script>
+<script> socket = io.connect('ws://{{socket}}');</script>
+<script src="/js/chatbox.js"></script>
+

@@ -1,0 +1,26 @@
+extends layouts/main.pug
+
+block content
+    div
+        #d-title.sect
+            h1#title.center="Y g g d 2 m i r"
+    #d-selfie.sect
+        img#selfie(src='img/selfie.jpg' alt='selfie').center
+    #d-intro.sect
+        p I am born to be a farmer.
+        p I believe that farmer is born to kill bugs everyday
+        p Until I do only dig serveral holes and jump into them
+        p My life consists of Ramen, code, bugs, game, and catnight.
+    .sect.chatbox
+        div
+            input#msgInput(
+                name='msg'
+                value="" 
+                onkeypress="sendMsg(event)"
+                placeholder="Leave something?"
+            )
+            #msgBox.center
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js')
+    script.
+        socket = io.connect('ws://#{socket}');
+    script(src='/js/chatbox.js')

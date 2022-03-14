@@ -1,0 +1,80 @@
+@font-face {
+    font-family: '8bitlim';
+    src:url('/fonts/8-bit-limit/8bitlim.ttf') format('truetype');
+}
+
+body {
+    font-family:'8bitlim';
+    background-image: url("/img/bg.png");
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-attachment: fixed;
+    background-size:cover;
+    background-color: rgb(10,20,60);
+}
+
+.center{
+    margin-left:auto;
+    margin-right:auto;
+}
+.sect {
+    text-align: center;
+    height: 350px;
+    display:block;
+    border-style:dotted;
+    margin: 1em;
+    zoom: 1;
+}
+
+#d-title{
+    height: 200px;
+}
+
+#title{
+    font-size:50px;
+    line-height: 100px;
+    height:80px;
+}
+#visit {
+    font-size: 20px;
+}
+footer {
+    color: steelblue;
+    display: block;
+    position: absolute;
+    bottom:0;
+}
+div {
+    text-align: center;
+}
+input {
+    margin:auto;
+    font-family:'8bitlim';
+    font-size: 17px;
+    background-color:transparent;
+    border:none;
+    border-style: hidden;
+    text-align:center;
+}
+input::placeholder{
+    text-align: center;
+    color: #000000;
+}
+#selfie {
+    vertical-align: center;
+    height: 300px;
+    width: auto;
+}
+#d-selfie{
+    vertical-align: center;
+}
+a {
+    color: #000000;
+}
+p {
+    color:white;
+}
+#footer{
+    position: relative;
+    bottom: 1.5vh;
+}
