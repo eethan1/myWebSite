@@ -1,0 +1,21 @@
+{
+  "name": "mywebsite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd frontend && yarn build",
+    "heroku-prebuild": "npm install -g yarn && cd frontend && yarn install --production=false && cd ../backend && yarn start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eethan1/myWebSite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eethan1/myWebSite/issues"
+  },
+  "homepage": "https://github.com/eethan1/myWebSite#readme"
+}
