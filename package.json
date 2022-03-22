@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd backend && yarn start",
     "build": "cd frontend && yarn build",
-    "heroku-prebuild": "npm install -g yarn && cd frontend && yarn install --production=false && cd ../backend && yarn start"
+    "heroku-prebuild": "npm install -g yarn && cd frontend && yarn install --production=false && cd ../backend && yarn install --production=false"
   },
   "repository": {
     "type": "git",
