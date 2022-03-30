@@ -5,7 +5,7 @@ const path = require('path')
 const csurf = require('csurf')
 const crypto = require('crypto')
 
-fs.unlinkSync(path.join(__dirname, '../db.json'))
+fs.rmSync(path.join(__dirname, '../db.json'), {force: true})
 
 const db = require('./db')
 
