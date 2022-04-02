@@ -1,6 +1,8 @@
 import {Fragment, useState} from 'react'
+import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
 function Login() {
+  const navigate = useNavigate()
   const [accountInput, setAccountInput] = useState({username: '', password: ''})
   const handleSubmit = (e) => {
     console.log(`Register&Login as ${accountInput.username}`)
@@ -13,6 +15,7 @@ function Login() {
       console.log(`length= ${avatar.length}`)
       const resp = await axios.post('/api/login', {...accountInput, avatar})
       console.log(resp)
+      navigate('/')
     })
     e.preventDefault()
   }

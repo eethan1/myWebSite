@@ -1,13 +1,27 @@
-import {Fragment, useState} from 'react'
-
+import {Fragment, useEffect, useState} from 'react'
+import axios from 'axios'
 function Home() {
-  const [msgs, setMsgs] = useState([])
+  const [msgs, setMsgs] = useState({})
   const [msg, setMsg] = useState('')
-  const appendMsg = (e) => {
+  const deleteMsg = async (mid) => {
+    await axios.delete(`/api/messages/${mid}`)
+    setMsgs((prev) => {
+      const r = {...prev}
+      delete r[mid]
+      return r
+    })
+  }
+  useEffect(async () => {
+    const resp = await axios.get('/api/messages')
+    setMsgs(resp.data)
+  }, [])
+  const appendMsg = async (e) => {
     if (e.keyCode === 13) {
       console.log(msgs)
+
+      const resp = await axios.post('/api/messages', {message: msg})
       setMsgs((prev) => {
-        const r = [...prev, msg]
+        const r = {...prev, ...resp.data.message}
         setMsg('')
         return r
       })
@@ -37,13 +51,17 @@ function Home() {
           ></input>
         </div>
         <div className='center'>
-          {msgs.map((msg, i) => (
-            <p key={`msg-${i}`}> {msg} </p>
+          {Object.keys(msgs).map((mid) => (
+            <div key={`msg-${mid}`}>
+              <img src={msgs[mid].avatar} alt='avatar' height='150' width='200'></img>
+              <p> {msgs[mid].message} </p>
+              <button onClick={() => deleteMsg(mid)}>delete</button>
+            </div>
           ))}
         </div>
       </div>
       <div>
-        <p> Visitor: {msgs.length}</p>
+        <p> Visitor: {Object.keys(msgs).length}</p>
       </div>
     </Fragment>
   )

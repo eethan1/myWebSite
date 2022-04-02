@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 8080
 console.log(__dirname)
 const publicDir = path.join(__dirname, '../../frontend/build')
 const uploadDir = path.join(__dirname, '../public')
+const messageAPI = require('./message')
 
 app.use(express.json({limit: '5mb'}))
 app.use(
@@ -32,8 +33,8 @@ app.use(
   })
 )
 
-const API = express.Router()
-API.post('/login', async (req, res) => {
+const userAPI = express.Router()
+userAPI.post('/login', async (req, res) => {
   const {username, password, avatar} = req.body
   if (!username || !password) {
     return res.status(400).json({err: 'empty username/password'})
@@ -69,7 +70,9 @@ API.post('/login', async (req, res) => {
   }
 })
 
-app.use('/api', API)
+app.use('/api', userAPI)
+
+app.use('/api', messageAPI)
 
 app.use(express.static(uploadDir))
 app.use(express.static(publicDir))
