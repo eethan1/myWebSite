@@ -13,8 +13,7 @@ const app = express()
 
 const PORT = process.env.PORT || 8080
 console.log(__dirname)
-const publicDir = path.join(__dirname, '../../frontend/build')
-const uploadDir = path.join(__dirname, '../public')
+const publicDir = path.join(__dirname, '../../frontend/dist')
 const messageAPI = require('./message')
 
 app.use(express.json({limit: '5mb'}))
@@ -74,7 +73,6 @@ app.use('/api', userAPI)
 
 app.use('/api', messageAPI)
 
-app.use(express.static(uploadDir))
 app.use(express.static(publicDir))
 
 app.get('*', (req, res) => {
