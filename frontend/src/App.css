@@ -1,5 +1,5 @@
 body {
-  font-family: '8bitlim';
+  font-family: 'Ancient-Modern-Tales';
   background-image: url('/public/img/bg.png');
   background-repeat: no-repeat;
   background-position: left top;
@@ -15,7 +15,6 @@ p {
   text-align: center;
   height: 250px;
   display: block;
-  border-style: dotted;
   margin: 1em;
   zoom: 1;
 }
@@ -26,8 +25,8 @@ p {
   line-height: 100px;
 }
 @font-face {
-  font-family: '8bitlim';
-  src: url('/public/fonts/8-bit-limit/8bitlim.ttf') format('truetype');
+  font-family: 'Ancient-Modern-Tales';
+  src: url('/public/fonts/AncientModernTales-a7Po.ttf') format('TrueType');
 }
 
 #d-title {
@@ -35,7 +34,7 @@ p {
 }
 input {
   margin: auto;
-  font-family: '8bitlim';
+  font-family: 'Ancient-Modern-Tales';
   font-size: 17px;
   background-color: transparent;
   border: none;
