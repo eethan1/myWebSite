@@ -36,7 +36,7 @@ function Home() {
         <img id='selfie' src='img/selfie.jpg' className='center'></img>
       </div>
       <div className='center'>
-        <p>Hi I'm Cjiso1117</p>
+        <p>Hi I'm R10921A14</p>
         <p>Web is so fun.</p>
         <p>CSS is so hard QAQ.</p>
       </div>
