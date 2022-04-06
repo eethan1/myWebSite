@@ -31,6 +31,19 @@ app.use(
     saveUninitialized: false,
   })
 )
+app.use((req, res, next) => {
+  if (req.method === 'POST') {
+    if (
+      !/^https:\/\/r10921a14-padns-midterm\.herokuapp\.com\//.test(req.headers.referer) &&
+      !/^http:\/\/localhost:8080/.test(req.headers.referer) &&
+      !/^http:\/\/localhost:3000/.test(req.headers.referer)
+    ) {
+      console.log(`evil referer: ${req.headers.referer}`)
+      return res.status(403).send({err: 'csrf attack?'})
+    }
+  }
+  next()
+})
 
 const userAPI = express.Router()
 userAPI.post('/login', async (req, res) => {
