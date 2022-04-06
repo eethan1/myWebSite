@@ -26,12 +26,12 @@ function Login() {
   return (
     <Fragment>
       <p> Login/Register </p>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input name='username' placeholder='username' onChange={handleInputChange}></input>
         <input type='password' name='password' placeholder='password' onChange={handleInputChange}></input>
         <label htmlFor='avatar'>Avatar</label>
         <input type='file' name='avatar'></input>
-        <input type='submit' onClick={handleSubmit}></input>
+        <input type='submit' name='submit'></input>
       </form>
     </Fragment>
   )

@@ -1,22 +1,35 @@
 body {
   font-family: 'Ancient-Modern-Tales';
-  background-image: url('/public/img/bg.png');
+  background-image: url('/img/bg.png');
   background-repeat: no-repeat;
   background-position: left top;
   background-attachment: fixed;
   background-size: cover;
   background-color: rgb(10, 20, 60);
 }
+
+.App {
+  display: grid;
+  grid-template-rows: 50px 200px 400px 150px auto;
+  grid-gap: 10px;
+}
+
 p {
   color: white;
 }
 
+.center {
+  margin: auto;
+}
+.message {
+  display: flex;
+  justify-content: center;
+}
+
 .sect {
   text-align: center;
-  height: 250px;
-  display: block;
-  margin: 1em;
-  zoom: 1;
+  display: grid;
+  grid-template-rows: 15px;
 }
 #d-intro {
   height: 150px;
@@ -24,9 +37,29 @@ p {
 #d-title {
   line-height: 100px;
 }
+
+#chatbox {
+  display: grid;
+  grid-template-rows: 30px auto;
+}
+#messages {
+  display: grid;
+  grid-auto-rows: auto;
+}
+.message {
+  display: grid;
+  grid-template-columns: 150px 300px 100px;
+  grid-auto-rows: auto;
+}
+
+.content {
+  word-wrap: break-word;
+  max-width: 300px;
+}
+
 @font-face {
   font-family: 'Ancient-Modern-Tales';
-  src: url('/public/fonts/AncientModernTales-a7Po.ttf') format('TrueType');
+  src: url('/fonts/AncientModernTales-a7Po.ttf') format('TrueType');
 }
 
 #d-title {
@@ -85,7 +118,7 @@ input::placeholder {
 }
 
 #selfie {
-  vertical-align: center;
+  margin: auto;
   height: 300px;
   width: auto;
 }
