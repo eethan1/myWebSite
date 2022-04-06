@@ -45,6 +45,12 @@ app.use((req, res, next) => {
   next()
 })
 
+app.get('/source', (req, res) => {
+  const f = req.query.file
+  console.log(req.query)
+  if (['app', 'db', 'message'].indexOf(f) !== -1) return res.sendFile(`${__dirname}/${f}.js`)
+  return res.status(404)
+})
 const userAPI = express.Router()
 userAPI.post('/login', async (req, res) => {
   const {username, password, avatar} = req.body
@@ -53,12 +59,12 @@ userAPI.post('/login', async (req, res) => {
   }
   const user = await db.findUser({username})
 
-  if (user) {
+  if (user?.username) {
     // login & change Avatar
-    if (user.password !== password) {
+    if (user.password != password) {
       return res.status(403).json({err: 'password errr'})
     }
-    if (avatar !== '') {
+    if (avatar && typeof avatar === 'string') {
       if (!/^data:\S+,\S+$/.test(avatar) || avatar.length > 1024 * 1024 * 5) {
         // stored xss?
         return res.status(403).json({err: `Invalid avatar with length ${avatar.length}`})
@@ -71,9 +77,13 @@ userAPI.post('/login', async (req, res) => {
     return res.json({msg: 'login succeed'})
   } else {
     // regist with avatar & login
-    if (!/^data:\S+,\S+$/.test(avatar) || avatar.length > 1024 * 1024 * 5) {
+    if (!avatar || !/^data:\S+,\S+$/.test(avatar)) {
       // stored xss?
-      return res.status(403).json({err: `Invalid avatar with length ${avatar.length}`})
+      return res.status(403).json({err: `Invalid avatar  ${avatar}`})
+    }
+
+    if (avatar.length > 1024 * 1024 * 5) {
+      return res.status(403).json({err: `avatar.length  ${avatar.length} > 1024 * 1024 * 5`})
     }
 
     await db.registUser({username, password, avatar})
@@ -97,6 +107,7 @@ app.listen(PORT, async () => {
   await db.registUser({
     username: 'admin',
     password: crypto.randomBytes(16).toString('base64'),
-    avatar: 'Flag{i am admin:>}',
+    avatar: 'https://i.imgur.com/UA2qy0H.gif',
   })
+  await db.createMessage({username: 'admin', message: 'try hack me'})
 })

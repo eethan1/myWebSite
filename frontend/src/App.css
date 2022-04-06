@@ -10,7 +10,7 @@ body {
 
 .App {
   display: grid;
-  grid-template-rows: 50px 200px 400px 150px auto;
+  grid-template-rows: 70px 200px 400px 150px auto;
   grid-gap: 10px;
 }
 
@@ -29,7 +29,7 @@ p {
 .sect {
   text-align: center;
   display: grid;
-  grid-template-rows: 15px;
+  grid-auto-rows: 35px;
 }
 #d-intro {
   height: 150px;
@@ -69,6 +69,7 @@ input {
   margin: auto;
   font-family: 'Ancient-Modern-Tales';
   font-size: 17px;
+  color: aquamarine;
   background-color: transparent;
   border: none;
   border-style: hidden;
